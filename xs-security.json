@@ -1,27 +1,39 @@
 {
     "scopes": [
         {
-            "name": "$XSAPPNAME.bookshop_scope",
+            "name": "uaa.user",
+            "description": "UAA"
+        },
+        {
+            "name": "$XSAPPNAME.bookshop_api_scope",
             "description": "Read edit and Consume Services"
         }
     ],
     "attributes": [],
     "role-templates": [
         {
-            "name": "bookshop_edit_auth",
+            "name": "Token_Exchange",
+            "description": "UAA",
+            "scope-references": [
+                "uaa.user"
+            ]
+        },
+        {
+            "name": "bookshop_api",
             "description": "Read edit and Consume Services",
             "scope-references": [
                 "uaa.user",
-                "$XSAPPNAME.bookshop_scope"
+                "$XSAPPNAME.bookshop_api_scope"
             ]
         }
     ],
     "role-collections": [
         {
-            "name": "RC_bookshop_edit",
+            "name": "RC_bookshop_api",
             "description": "RC for Bookshop Service Edit",
             "role-template-references": [
-                "$XSAPPNAME.bookshop_edit_auth"
+                "$XSAPPNAME.Token_Exchange",
+                "$XSAPPNAME.bookshop_api"
             ]
         }
     ]
