@@ -20,6 +20,5 @@ entity Authors : managed {
 
 entity Genres : sap.common.CodeList { 
   key ID   : UUID;
-  parent   : Association to Genres;
-  children : Composition of many Genres on children.parent = $self;
+
 }

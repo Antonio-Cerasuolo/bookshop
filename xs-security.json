@@ -1,0 +1,28 @@
+{
+    "scopes": [
+        {
+            "name": "$XSAPPNAME.bookshop_scope",
+            "description": "Read edit and Consume Services"
+        }
+    ],
+    "attributes": [],
+    "role-templates": [
+        {
+            "name": "bookshop_edit_auth",
+            "description": "Read edit and Consume Services",
+            "scope-references": [
+                "uaa.user",
+                "$XSAPPNAME.bookshop_scope"
+            ]
+        }
+    ],
+    "role-collections": [
+        {
+            "name": "RC_bookshop_edit",
+            "description": "RC for Bookshop Service Edit",
+            "role-template-references": [
+                "$XSAPPNAME.bookshop_edit_auth"
+            ]
+        }
+    ]
+}
