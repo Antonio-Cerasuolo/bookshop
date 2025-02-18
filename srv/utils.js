@@ -2,7 +2,7 @@ const {}= cds.entities('sap.bookshop');
 
 async function pickUpBook(request) {
 
-    oQueryResult = SELECT.from(Books).where({Title : request.Title, Author : request.Author})
+    oQueryResult = SELECT.from(Books).where({Title : request.data.Title, Author : request.data.Author})
 
     for (Book of oQueryResult) {
 
