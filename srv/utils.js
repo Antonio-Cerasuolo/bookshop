@@ -12,6 +12,12 @@ async function fPickUpBook(request) {
         }
         else {
             await UPDATE(Books).set({ stock: (Book.stock) - 1 }).where({ ID: Book.ID });
+            await INSERT.into(Register).set({
+                ID:uuid(),
+                Day: new Date(),
+                book: Book.ID,
+                borrowedBy: request.Person
+            })
         }
 
     }
