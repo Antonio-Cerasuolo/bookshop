@@ -67,6 +67,10 @@ module.exports = cds.service.impl(async function () {
     })
 
 
+    this.before("newBook", async(request) => {
+        await checkInput(request);
+    })
+
     this.on("newBook", async(request) => {
         await fNewBook(request);
     })

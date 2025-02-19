@@ -48,6 +48,17 @@ async function fRecommendBook(request) {
     
 }
 
+async function checkInput(request) {
+    for(const data in request.data){
+        if(data){
+            //OK
+        }
+        else {
+            request.reject(499,`${data} cannot be undefined`)
+        }
+    }
+}
+
 
     async function fNewBook(request) {
         const {
@@ -79,5 +90,6 @@ module.exports = {
     fPickUpBook,
     fReturnBook,
     fNewBook,
+    checkInput,
     fRecommendBook
 }
