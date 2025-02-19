@@ -1,4 +1,5 @@
 const cds = require('@sap/cds');
+const { fRecommendBook } = require('./utils');
 
 module.exports = cds.service.impl(async function () {
 
@@ -30,6 +31,10 @@ module.exports = cds.service.impl(async function () {
     this.on("pickUpBook", async (request) => {
         await fPickUpBook(request);
     })
+
+    this.after("pickUpBook", async(request) => {
+        await fRecommendBook(request);
+    });
 
 
     this.before("returnBook", async (request) => {

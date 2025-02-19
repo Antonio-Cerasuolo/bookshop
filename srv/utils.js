@@ -33,28 +33,43 @@ async function fReturnBook(request) {
 
     }
 
+async function fRecommendBook(request) {
+    const {ID} = request.data;
+    
+    var oQueryResult = SELECT.from(Books).where({ ID: ID });
+
+    var aRecommendations = SELECT.from(Books).where({author_ID : oQueryResult.author_ID}).or({genre_ID: oQueryResult.genre_ID});
+
+    if(aRecommendations.length > 0){
+        return aRecommendations;
+    }else{
+        return 'No recommendations available.'
+    }
+    
+}
+
 
     async function fNewBook(request) {
-    const {
-        Title,
-        Description,
-        Author,
-        Genre,
-        Stock,
-        Price,
-        Currency
-    } = request.data
+        const {
+            Title,
+            Description,
+            Author,
+            Genre,
+            Stock,
+            Price,
+            Currency
+        } = request.data
 
-    await INSERT.into(Books).entries({
-        ID: uuid(), 
-        title: Title,
-        descr: Description,
-        author: Author,
-        genre: Genre,
-        stock: Stock,
-        price: Price,
-        currency: Currency
-    });
+        await INSERT.into(Books).entries({
+            ID: uuid(),
+            title: Title,
+            descr: Description,
+            author: Author,
+            genre: Genre,
+            stock: Stock,
+            price: Price,
+            currency: Currency
+        });
 
     }
 
@@ -63,5 +78,6 @@ async function fReturnBook(request) {
 module.exports = {
     fPickUpBook,
     fReturnBook,
-    fNewBook
+    fNewBook,
+    fRecommendBook
 }
