@@ -28,7 +28,7 @@ module.exports = cds.service.impl(async function () {
 
 
     this.on("pickUpBook", async (request) => {
-        await pickUpBook(request);
+        await fPickUpBook(request);
     })
 
 
@@ -58,7 +58,12 @@ module.exports = cds.service.impl(async function () {
 
 
     this.on("returnBook", async (request) => {
-        await returnBook(request);
+        await fReturnBook(request);
+    })
+
+
+    this.on("newBook", async(request) => {
+        await fNewBook(request);
     })
 
 })

@@ -7,6 +7,6 @@ service BookShopService @(requires: [
 
     action pickUpBook(ID : String, Author : String, Title : String);
     action returnBook(ID : String, Author : String, Title : String);
-    
+    action newBook(Title : String, Description : String, Author : String, Genre : String, Stock : Integer, Price : Decimal(9,2), Currency : String(3));
 
 }
