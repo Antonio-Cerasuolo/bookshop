@@ -1,32 +1,11 @@
 const cds = require('@sap/cds');
-const { fRecommendBook,fNewBook,fReturnBook } = require('./utils');
+const { fRecommendBook,fNewBook,fReturnBook,fPickUpBook } = require('./utils');
 
 module.exports = cds.service.impl(async function () {
 
     this.before("pickUpBook", async (request) => {
-        if (request.data.ID) {
-            //OK
-        }
-        else {
-            request.reject(499, "Missing book id");
-        }
-
-        if (request.data.Title) {
-            //OK
-        }
-        else {
-            request.reject(499, "Missing book title");
-        }
-
-        if (request.data.Author) {
-            //OK
-        }
-        else {
-            request.reject(499, "Missing book Author");
-        }
-
+        await checkInput(request);
     })
-
 
     this.on("pickUpBook", async (request) => {
         await fPickUpBook(request);
@@ -38,34 +17,12 @@ module.exports = cds.service.impl(async function () {
 
 
     this.before("returnBook", async (request) => {
-        if (request.data.ID) {
-            //OK
-        }
-        else {
-            request.reject(499, "Missing book id");
-        }
-
-        if (request.data.Title) {
-            //OK
-        }
-        else {
-            request.reject(499, "Missing book title");
-        }
-
-        if (request.data.Author) {
-            //OK
-        }
-        else {
-            request.reject(499, "Missing book Author");
-        }
-
+        await checkInput(request);
     })
-
 
     this.on("returnBook", async (request) => {
         await fReturnBook(request);
     })
-
 
     this.before("newBook", async(request) => {
         await checkInput(request);

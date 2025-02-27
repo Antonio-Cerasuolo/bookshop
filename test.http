@@ -30,7 +30,8 @@ Content-Type: application/json
 
 
 ###-----------------------------------------------------------------------------------------------------------------
-POST {{server}}/odata/v4/BookShop/Genres
+POST {{server}}/odata/v2/BookShop/Genres
+Authorization: Basic utente1:1234
 Content-Type: application/json
 
 {
@@ -40,4 +41,19 @@ Content-Type: application/json
 ###-----------------------------------------------------------------------------------------------------------------
 GET {{server}}/odata/v4/BookShop/Genres
 Authorization: Basic utente1:1234
+
+###
+POST {{server}}/odata/v4/BookShop/Library
+Authorization: Basic utente1:1234
+Content-Type: application/json
+ 
+{
+    "name" : "Libreria del Sole",
+    "libraryAddress_city" : "Roma",
+    "libraryAddress_street" : "Via dei ciliegi",
+    "libraryAddress_streetNumber" : 8
+}
+###
+GET {{server}}/odata/v4/BookShop/Library
+
 

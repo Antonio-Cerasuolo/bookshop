@@ -1,9 +1,3 @@
 [
-  "src/gen/**/*.hdbview",
-  "src/gen/**/*.hdbindex",
-  "src/gen/**/*.hdbconstraint",
-  "src/gen/**/*_drafts.hdbtable",
-  "src/gen/**/*.hdbtabledata",
-  "src/gen/**/*.csv",
-  "src/gen/**/*.hdbcalculationview"
+  
 ]
