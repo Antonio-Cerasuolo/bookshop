@@ -2,9 +2,7 @@ namespace sap.bookshop;
 
 using {
   Currency,
-  managed,
-  sap
-} from '@sap/cds/common';
+  managed} from '@sap/cds/common';
 
 type AddressType {
   city         : String;
@@ -12,10 +10,10 @@ type AddressType {
   streetNumber : Integer;
 }
 
-type Person{
-  name : String;
+type Person {
+  name    : String;
   surname : String;
-  docNo : String(10);
+  docNo   : String(10);
   address : AddressType;
 }
 
@@ -36,21 +34,22 @@ entity Books {
 }
 
 entity Authors {
-  key ID    : UUID;
-      name  : String(30);
-      books : Association to many Books
-                on books.author = $self;
+  key name    : String;
+  key surname : String;
+      books   : Association to many Books
+                  on books.author = $self;
 }
 
 entity Register : managed {
-  key ID              : UUID;
-  Day                 : DateTime;         // Data e ora del ritiro
-  book                : Association to Books;  // Libro ritirato
-  borrowedBy          : Person;       // Persona che ha ritirato il libro
-  returnDate          : Date;             // Data prevista per la restituzione
-  actualReturnDate    : Date;             // Data effettiva di restituzione
+  key ID               : UUID;
+      Day              : DateTime; // Data e ora del ritiro
+      book             : Association to Books; // Libro ritirato
+      borrowedBy       : Person; // Persona che ha ritirato il libro
+      returnDate       : Date; // Data prevista per la restituzione
+      actualReturnDate : Date; // Data effettiva di restituzione
 }
-entity Genres : sap.common.CodeList {
-  key ID : UUID;
+
+entity Genres  {
+  key type : String;
 
 }

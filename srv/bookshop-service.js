@@ -1,5 +1,5 @@
 const cds = require('@sap/cds');
-const { fRecommendBook } = require('./utils');
+const { fRecommendBook,fNewBook,fReturnBook } = require('./utils');
 
 module.exports = cds.service.impl(async function () {
 

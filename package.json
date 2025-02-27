@@ -6,21 +6,66 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "@sap/cds": "^8",
+    "@cap-js-community/odata-v2-adapter": "^1.12.10",
+    "@cap-js/cds-typer": "^0.21.2",
+    "@sap-cloud-sdk/connectivity": "^3.15.0",
+    "@sap-cloud-sdk/http-client": "^3.15.0",
+    "@sap-cloud-sdk/odata-v4": "^3.15.0",
+    "@sap/cds": "^7",
+    "@sap/cds-hana": "^2",
+    "@sap/xssec": "^3.6.1",
+    "@types/node": "^20.14.2",
     "express": "^4",
-    "@cap-js/hana": "^1"
+    "helmet": "^7.1.0",
+    "json2xml": "^0.1.3",
+    "nodemailer": "^6.9.14",
+    "ts-node": "^10.9.2",
+    "xlsx": "^0.18.5",
+    "xml-js": "^1.6.11"
   },
   "devDependencies": {
-    "@cap-js/cds-types": "^0.8.0",
-    "@cap-js/sqlite": "^1",
-    "@sap/cds-dk": "^8"
+    "@cap-js/sqlite": "^1.7.1",
+    "@sap-cloud-sdk/generator": "^3.15.0",
+    "@sap/cds-dk": "^7",
+    "@sap/eslint-plugin-cds": "^3",
+    "eslint": "^9"
   },
   "scripts": {
     "start": "cds-serve"
   },
+  "engines": {
+    "node": "^20"
+  },
   "cds": {
-    "sql": {
-      "native_hana_associations": false
+    "log": {
+      "levels": {
+        "remote": "debug",
+        "cds": "debug"
+      }
+    },
+    "features": {
+      "{production}": {
+        "kibana_formatter": true
+      }
+    },
+    "requires": {
+      "db": "hana",
+      "[production]": {
+        "auth": "xsuaa"
+      },
+      "[development]": {
+        "auth": {
+          "strategy": "mocked",
+          "users": {
+            "utente1": {
+              "password": "1234",
+              "roles": [
+                "Admin"
+              ]
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -13,7 +13,7 @@ async function fPickUpBook(request) {
         else {
             await UPDATE(Books).set({ stock: (Book.stock) - 1 }).where({ ID: Book.ID });
             await INSERT.into(Register).set({
-                ID:uuid(),
+                ID: uuid(),
                 Day: new Date(),
                 book: Book.ID,
                 borrowedBy: request.Person
@@ -38,59 +38,59 @@ async function fReturnBook(request) {
         }
 
     }
+}
 
 async function fRecommendBook(request) {
-    const {ID} = request.data;
-    
+    const { ID } = request.data;
+
     var oQueryResult = SELECT.from(Books).where({ ID: ID });
 
-    var aRecommendations = SELECT.from(Books).where({author_ID : oQueryResult.author_ID}).or({genre_ID: oQueryResult.genre_ID});
+    var aRecommendations = SELECT.from(Books).where({ author_ID: oQueryResult.author_ID }).or({ genre_ID: oQueryResult.genre_ID });
 
-    if(aRecommendations.length > 0){
+    if (aRecommendations.length > 0) {
         return aRecommendations;
-    }else{
+    } else {
         return 'No recommendations available.'
     }
-    
+
 }
 
 async function checkInput(request) {
-    for(const data in request.data){
-        if(data){
+    for (const data in request.data) {
+        if (data) {
             //OK
         }
         else {
-            request.reject(499,`${data} cannot be undefined`)
+            request.reject(499, `${data} cannot be undefined`)
         }
     }
 }
 
 
-    async function fNewBook(request) {
-        const {
-            Title,
-            Description,
-            Author,
-            Genre,
-            Stock,
-            Price,
-            Currency
-        } = request.data
+async function fNewBook(request) {
+    const {
+        Title,
+        Description,
+        Author,
+        Genre,
+        Stock,
+        Price,
+        Currency
+    } = request.data
 
-        await INSERT.into(Books).entries({
-            ID: uuid(),
-            title: Title,
-            descr: Description,
-            author: Author,
-            genre: Genre,
-            stock: Stock,
-            price: Price,
-            currency: Currency
-        });
-
-    }
+    await INSERT.into(Books).entries({
+        ID: uuid(),
+        title: Title,
+        descr: Description,
+        author: Author,
+        genre: Genre,
+        stock: Stock,
+        price: Price,
+        currency: Currency
+    });
 
 }
+
 
 module.exports = {
     fPickUpBook,

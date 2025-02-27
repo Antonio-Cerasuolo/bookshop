@@ -1,0 +1,43 @@
+@server = http://localhost:4004
+
+POST {{server}}/odata/v4/pickUpBook
+Authorization: Basic utente1:1234
+Content-Type: application/json
+
+{
+
+}
+
+###-----------------------------------------------------------------------------------------------------------------
+
+POST {{server}}/odata/v4/returnBook
+Authorization: Basic utente1:1234
+Content-Type: application/json
+
+{
+
+}
+
+###-----------------------------------------------------------------------------------------------------------------
+
+POST {{server}}/odata/v4/newBook
+Authorization: Basic utente1:1234
+Content-Type: application/json
+
+{
+
+}
+
+
+###-----------------------------------------------------------------------------------------------------------------
+POST {{server}}/odata/v4/BookShop/Genres
+Content-Type: application/json
+
+{
+    "type" : "Horror"
+}
+
+###-----------------------------------------------------------------------------------------------------------------
+GET {{server}}/odata/v4/BookShop/Genres
+Authorization: Basic utente1:1234
+

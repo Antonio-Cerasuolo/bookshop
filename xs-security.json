@@ -1,6 +1,10 @@
 {
     "scopes": [
         {
+            "name": "$XSAPPNAME.Admin",
+            "description": "Admin"
+        },
+        {
             "name": "uaa.user",
             "description": "UAA"
         },
@@ -11,6 +15,14 @@
     ],
     "attributes": [],
     "role-templates": [
+        {
+            "name": "RoleTemplate",
+            "description": "generated",
+            "scope-references": [
+             "$XSAPPNAME.Admin"
+            ],
+            "attribute-references": []
+           },
         {
             "name": "Token_Exchange",
             "description": "UAA",

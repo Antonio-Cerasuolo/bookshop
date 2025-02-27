@@ -26,6 +26,8 @@ modules:
           srv-url: ${default-url}
     requires:
       - name: Libreria-db
+      - name: Libreria-auth
+      - name: Libreria-destination
 
   - name: Libreria-db-deployer
     type: hdb
@@ -41,3 +43,17 @@ resources:
     parameters:
       service: hana
       service-plan: hdi-shared
+  - name: Libreria-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: Libreria-${org}-${space}
+        tenant-mode: dedicated
+  - name: Libreria-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite
