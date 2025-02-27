@@ -10,22 +10,30 @@ Content-Type: application/json
 
 ###-----------------------------------------------------------------------------------------------------------------
 
-POST {{server}}/odata/v4/returnBook
+POST {{server}}/odata/v4/BookShop/Authors
 Authorization: Basic utente1:1234
 Content-Type: application/json
 
 {
-
+"name" : "Joanne",
+"surname": "Rowling"
 }
 
 ###-----------------------------------------------------------------------------------------------------------------
 
-POST {{server}}/odata/v4/newBook
+POST {{server}}/odata/v4/BookShop/newBook
 Authorization: Basic utente1:1234
 Content-Type: application/json
 
 {
-
+        "Title": "Divina Commedia",
+        "Description": "A journey through Hell, Purgatory, and Paradise, guided by reason and divine grace.",
+        "AuthorName": "Dante",
+        "AuthorSurname": "Alighieri",
+        "Genre": "Poem",
+        "Stock": 1,
+        "Price": 30,
+        "Currency": "EUR"
 }
 
 
@@ -35,12 +43,16 @@ Authorization: Basic utente1:1234
 Content-Type: application/json
 
 {
-    "type" : "Horror"
+    "type" : "Crime"
 }
 
 ###-----------------------------------------------------------------------------------------------------------------
+DELETE {{server}}/odata/v4/BookShop/Genres('Giallo')
+Authorization: Basic utente1:1234
+###-----------------------------------------------------------------------------------------------------------------
 GET {{server}}/odata/v4/BookShop/Genres
 Authorization: Basic utente1:1234
+
 
 ###
 POST {{server}}/odata/v4/BookShop/Library
@@ -48,10 +60,10 @@ Authorization: Basic utente1:1234
 Content-Type: application/json
  
 {
-    "name" : "Libreria del Sole",
-    "libraryAddress_city" : "Roma",
-    "libraryAddress_street" : "Via dei ciliegi",
-    "libraryAddress_streetNumber" : 8
+    "name" : "Caffè Letterario",
+    "libraryAddress_city" : "Napoli",
+    "libraryAddress_street" : "Via dei Girasoli",
+    "libraryAddress_streetNumber" : 120
 }
 ###
 GET {{server}}/odata/v4/BookShop/Library

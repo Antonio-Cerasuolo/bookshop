@@ -1,96 +1,100 @@
-const { } = cds.entities('sap.bookshop');
+const cds = require('@sap/cds');
 const { uuid } = cds.utils;
 
 async function fPickUpBook(request) {
+    const { Books, Register, Authors, Library } = cds.entities;  // Ottieni le entità dal contesto CAP
+    const { ID, Title, Author, Person } = request.data;
 
-    oQueryResult = SELECT.from(Books).where({ ID: request.ID, Title: request.data.Title, Author: request.data.Author })
+    const oQueryResult = await SELECT.from(Books).where({ ID, title: Title, author: Author });
 
-    for (let Book of oQueryResult) {
-
-        if (Book.stock == 0) {
-            request.reject(499, "Stock for selected book is zero");
-        }
-        else {
-            await UPDATE(Books).set({ stock: (Book.stock) - 1 }).where({ ID: Book.ID });
-            await INSERT.into(Register).set({
-                ID: uuid(),
-                Day: new Date(),
-                book: Book.ID,
-                borrowedBy: request.Person
-            })
-        }
-
+    if (oQueryResult.length === 0) {
+        return request.reject(404, "Book not found");
     }
 
+    for (let Book of oQueryResult) {
+        if (Book.stock === 0) {
+            return request.reject(499, "Stock for selected book is zero");
+        }
+
+        await UPDATE(Books).set({ stock: Book.stock - 1 }).where({ ID: Book.ID });
+
+        await INSERT.into(Register).entries({
+            ID: uuid(),
+            Day: new Date(),
+            book: Book.ID,
+            borrowedBy: Person
+        });
+    }
+
+    return "Book borrowed successfully!";
 }
 
 async function fReturnBook(request) {
+    const { Books } = cds.entities;
+    const { ID, Title, Author } = request.data;
 
-    oQueryResult = SELECT.from(Books).where({ ID: request.ID, Title: request.data.Title, Author: request.data.Author })
+    const oQueryResult = await SELECT.from(Books).where({ ID, title: Title, author: Author });
+
+    if (oQueryResult.length === 0) {
+        return request.reject(404, "Book not found");
+    }
 
     for (let Book of oQueryResult) {
-
-        if (Book.stock == 0) {
-            request.reject(499, "Stock for selected book is zero");
-        }
-        else {
-            await UPDATE(Books).set({ stock: (Book.stock) + 1 }).where({ ID: Book.ID });
-        }
-
+        await UPDATE(Books).set({ stock: Book.stock + 1 }).where({ ID: Book.ID });
     }
+
+    return "Book returned successfully!";
 }
 
 async function fRecommendBook(request) {
+    const { Books } = cds.entities;
     const { ID } = request.data;
 
-    var oQueryResult = SELECT.from(Books).where({ ID: ID });
+    const [book] = await SELECT.from(Books).where({ ID });
+    if (!book) return request.reject(404, "Book not found");
 
-    var aRecommendations = SELECT.from(Books).where({ author_ID: oQueryResult.author_ID }).or({ genre_ID: oQueryResult.genre_ID });
+    const recommendations = await SELECT.from(Books)
+        .where({ author: book.author })
+        .or({ genre: book.genre });
 
-    if (aRecommendations.length > 0) {
-        return aRecommendations;
-    } else {
-        return 'No recommendations available.'
-    }
-
+    return recommendations.length > 0 ? recommendations : "No recommendations available.";
 }
 
 async function checkInput(request) {
-    for (const data in request.data) {
-        if (data) {
-            //OK
-        }
-        else {
-            request.reject(499, `${data} cannot be undefined`)
+    for (const key in request.data) {
+        if (!request.data[key]) {
+            return request.reject(499, `${key} cannot be undefined`);
         }
     }
 }
 
-
 async function fNewBook(request) {
+    const { Books } = cds.entities;
     const {
         Title,
         Description,
-        Author,
+        AuthorName,
+        AuthorSurname,
         Genre,
         Stock,
         Price,
         Currency
-    } = request.data
+    } = request.data;
 
     await INSERT.into(Books).entries({
         ID: uuid(),
         title: Title,
         descr: Description,
-        author: Author,
-        genre: Genre,
+        author_name: AuthorName,
+        author_surname: AuthorSurname,
+        genre_type: Genre,
         stock: Stock,
         price: Price,
-        currency: Currency
+        currency_code: Currency
     });
 
+    return "New book added successfully!";
 }
-
 
 module.exports = {
     fPickUpBook,
@@ -98,4 +102,4 @@ module.exports = {
     fNewBook,
     checkInput,
     fRecommendBook
-}
+};
