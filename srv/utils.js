@@ -3,43 +3,46 @@ const { uuid } = cds.utils;
 
 async function fPickUpBook(request) {
     const { Books, Register, Authors, Library } = cds.entities;  // Ottieni le entità dal contesto CAP
-    const { ID, Title, Author, Person } = request.data;
+    const { Title, Person } = request.data;
 
-    const oQueryResult = await SELECT.from(Books).where({ ID, title: Title, author: Author });
+    const oQueryResult = await SELECT.from(Books, {title : Title})  //Seleziona il record con chiave primaria
 
-    if (oQueryResult.length === 0) {
+    if (oQueryResult) {
+        //OK
+    }else{
         return request.reject(404, "Book not found");
     }
 
-    for (let Book of oQueryResult) {
-        if (Book.stock === 0) {
+        if (oQueryResult.stock === 0) {
             return request.reject(499, "Stock for selected book is zero");
         }
 
-        await UPDATE(Books).set({ stock: Book.stock - 1 }).where({ ID: Book.ID });
+        await UPDATE(Books).set({ stock: oQueryResult.stock - 1 }).where({ title : Title });
 
         await INSERT.into(Register).entries({
             ID: uuid(),
             Day: new Date(),
-            book: Book.ID,
+            book_title: Title,
             borrowedBy: Person
         });
+        return "Book borrowed successfully!";
     }
 
-    return "Book borrowed successfully!";
-}
+
+
 
 async function fReturnBook(request) {
     const { Books } = cds.entities;
-    const { ID, Title, Author } = request.data;
+    const {Title, Person } = request.data;
 
-    const oQueryResult = await SELECT.from(Books).where({ ID, title: Title, author: Author });
+    const oQueryResult = await SELECT.from(Books).where({title: Title});
 
     if (oQueryResult.length === 0) {
         return request.reject(404, "Book not found");
     }
 
     for (let Book of oQueryResult) {
+        let ID = Book.ID;
         await UPDATE(Books).set({ stock: Book.stock + 1 }).where({ ID: Book.ID });
     }
 

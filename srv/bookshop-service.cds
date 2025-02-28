@@ -9,8 +9,8 @@ service BookShopService {
   entity Register as projection on db.Register;
   entity Genres   as projection on db.Genres;
   
-  action pickUpBook(ID : String, Author : String, Title : String, Customer : db.Person);
-  action returnBook(ID : String, Author : String, Title : String);
+  action pickUpBook( Title : String, Customer : db.Person);
+  action returnBook( Title : String, Customer : db.Person);
   action newBook(Title : String, Description : String, AuthorName : String,AuthorSurname: String, Genre : String, Stock : Integer, Price : Decimal(9, 2), Currency : String(3));
 
 }

@@ -2,7 +2,8 @@ namespace sap.bookshop;
 
 using {
   Currency,
-  managed} from '@sap/cds/common';
+  managed
+} from '@sap/cds/common';
 
 type AddressType {
   city         : String;
@@ -23,9 +24,8 @@ entity Library {
 }
 
 entity Books {
-  key ID       : UUID;
-      title    : localized String(30);
-      descr    : localized String(200);
+  key title    : String(50);
+      descr    : String(200);
       author   : Association to Authors;
       genre    : Association to Genres;
       stock    : Integer;
@@ -43,13 +43,13 @@ entity Authors {
 entity Register : managed {
   key ID               : UUID;
       Day              : DateTime; // Data e ora del ritiro
-      book             : Association to Books; // Libro ritirato
+      book             : Association to Books { title }; //Libro ritirato
       borrowedBy       : Person; // Persona che ha ritirato il libro
       returnDate       : Date; // Data prevista per la restituzione
       actualReturnDate : Date; // Data effettiva di restituzione
 }
 
-entity Genres  {
+entity Genres {
   key type : String;
 
 }

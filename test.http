@@ -8,7 +8,46 @@ Content-Type: application/json
 
 }
 
-###-----------------------------------------------------------------------------------------------------------------
+###--------------------------------------- GET EXAMPLES --------------------------------------------------------------------------
+
+GET {{server}}/odata/v4/BookShop/Library
+Authorization: Basic utente1:1234
+
+###
+
+GET {{server}}/odata/v4/BookShop/Books
+Authorization: Basic utente1:1234
+
+###
+
+GET {{server}}/odata/v4/BookShop/Genres
+Authorization: Basic utente1:1234
+
+###
+GET {{server}}/odata/v4/BookShop/Authors
+Authorization: Basic utente1:1234
+
+###
+GET {{server}}/odata/v4/BookShop/Register
+Authorization: Basic utente1:1234
+
+###--------------------------------------- GET EXAMPLES WITH FILTERS -------------------------------------------------------------------
+
+GET {{server}}/odata/v4/BookShop/Books?$filter=author_name eq 'Joanne' and author_surname eq 'Rowling'
+Authorization: Basic utente1:1234
+
+###
+
+GET {{server}}/odata/v4/BookShop/Authors?$expand=books
+Authorization: Basic utente1:1234
+
+###
+
+GET {{server}}/odata/v4/BookShop/Genres?$expand=books
+Authorization: Basic utente1:1234
+
+
+###----------------------------------------------POST EXAMPLES------------------------------------------------------
 
 POST {{server}}/odata/v4/BookShop/Authors
 Authorization: Basic utente1:1234
@@ -19,25 +58,9 @@ Content-Type: application/json
 "surname": "Rowling"
 }
 
-###-----------------------------------------------------------------------------------------------------------------
 
-POST {{server}}/odata/v4/BookShop/newBook
-Authorization: Basic utente1:1234
-Content-Type: application/json
+###
 
-{
-        "Title": "Divina Commedia",
-        "Description": "A journey through Hell, Purgatory, and Paradise, guided by reason and divine grace.",
-        "AuthorName": "Dante",
-        "AuthorSurname": "Alighieri",
-        "Genre": "Poem",
-        "Stock": 1,
-        "Price": 30,
-        "Currency": "EUR"
-}
-
-
-###-----------------------------------------------------------------------------------------------------------------
 POST {{server}}/odata/v2/BookShop/Genres
 Authorization: Basic utente1:1234
 Content-Type: application/json
@@ -46,15 +69,18 @@ Content-Type: application/json
     "type" : "Crime"
 }
 
-###-----------------------------------------------------------------------------------------------------------------
-DELETE {{server}}/odata/v4/BookShop/Genres('Giallo')
-Authorization: Basic utente1:1234
-###-----------------------------------------------------------------------------------------------------------------
-GET {{server}}/odata/v4/BookShop/Genres
-Authorization: Basic utente1:1234
+###
 
+POST {{server}}/odata/v2/BookShop/Genres
+Authorization: Basic utente1:1234
+Content-Type: application/json
+
+{
+    "type" : "Crime"
+}
 
 ###
+
 POST {{server}}/odata/v4/BookShop/Library
 Authorization: Basic utente1:1234
 Content-Type: application/json
@@ -65,7 +91,102 @@ Content-Type: application/json
     "libraryAddress_street" : "Via dei Girasoli",
     "libraryAddress_streetNumber" : 120
 }
-###
-GET {{server}}/odata/v4/BookShop/Library
 
+###------------------------------------------- PUT EXAMPLES----------------------------------------------------------------------
+
+PUT {{server}}/odata/v4/BookShop/Books/3f275bf3-cb21-4bcf-a111-0256455beba5
+Content-Type: application/json
+Authorization: Basic utente1:1234
+
+{
+
+    "title": "Harry Potter 2",
+    "descr": "Harry returns to Hogwarts and uncovers the mystery of the Chamber of Secrets, facing a deadly monster and Tom Riddle's dark past.",
+    "author_name": "Joanne",
+    "author_surname": "Rowling",
+    "genre_type": "Fantasy",
+    "stock": 2,
+    "price": 21,
+    "currency_code": "EUR"
+}
+
+
+
+PUT {{server}}/odata/v4/BookShop/Books/3f275bf3-cb21-4bcf-a111-0256455beba5
+Content-Type: application/json
+Authorization: Basic utente1:1234
+
+{
+    "price": 21
+}
+
+###--------------------------------------------PATCH EXAMPLES---------------------------------------------------------------------
+
+PATCH {{server}}/odata/v4/BookShop/Books/3f275bf3-cb21-4bcf-a111-0256455beba5
+Content-Type: application/json
+Authorization:  Basic utente1:1234
+
+{
+  "stock": 5
+}
+
+###---------------------------------------------DELETE EXAMPLES--------------------------------------------------------------------
+DELETE {{server}}/odata/v4/BookShop/Books(100bb828-0ffc-45e8-8122-c91312360874)
+Authorization: Basic utente1:1234
+Content-Type: application/json
+
+###---------------------------------------------ACTION EXAMPLES--------------------------------------------------------------------
+POST {{server}}/odata/v4/BookShop/newBook
+Authorization: Basic utente1:1234
+Content-Type: application/json
+
+{
+        "Title": "Harry Potter 2",
+        "Description": "Harry returns to Hogwarts and uncovers the mystery of the Chamber of Secrets, facing a deadly monster and Tom Riddle's dark past.",
+        "AuthorName": "Joanne",
+        "AuthorSurname": "Rowling",
+        "Genre": "Fantasy",
+        "Stock": 1,
+        "Price": 25,
+        "Currency": "EUR"
+}
+
+###
+
+
+POST {{server}}/odata/v4/BookShop/newBook
+Authorization: Basic utente1:1234
+Content-Type: application/json
+
+{
+        "Title": "Harry Potter 2",
+        "Description": "Harry returns to Hogwarts and uncovers the mystery of the Chamber of Secrets, facing a deadly monster and Tom Riddle's dark past.",
+        "AuthorName": "Joanne",
+        "AuthorSurname": "Rowling",
+        "Genre": "Fantasy",
+        "Stock": 1,
+        "Price": 25,
+        "Currency": "EUR"
+}
+
+###
+
+POST {{server}}/odata/v4/BookShop/pickUpBook
+Authorization: Basic utente1:1234
+Content-Type: application/json
+
+{
+        "Title": "Harry Potter 2",
+        "Customer": {
+            "name" : "Marco",
+            "surname" : "Rossi",
+            "docNo": "MRC10092IU",
+            "address": {
+                    "city"         : "Roma",
+                    "street"       : "Via del corso",
+                    "streetNumber" : 12
+            }
+        }
+        
+}
 
